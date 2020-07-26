@@ -222,38 +222,34 @@ class IntroductionScreenState extends State<IntroductionScreen> {
             bottom: 16.0,
             left: 16.0,
             right: 16.0,
+            child: Center(
+              child: widget.isProgress
+                  ? DotsIndicator(
+                      dotsCount: widget.pages.length,
+                      position: _currentPage,
+                      decorator: widget.dotsDecorator,
+                      onTap: widget.isProgressTap && !widget.freeze
+                          ? (pos) => animateScroll(pos.toInt())
+                          : null,
+                    )
+                  : const SizedBox(),
+            ),
+          ),
+          Positioned(
+            bottom: 16.0,
+            left: 16.0,
+            right: 16.0,
             child: SafeArea(
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Expanded(
-                    flex: widget.skipFlex,
-                    child: isSkipBtn
-                        ? skipBtn
-                        : Opacity(opacity: 0.0, child: skipBtn),
-                  ),
-                  Expanded(
-                    flex: widget.dotsFlex,
-                    child: Center(
-                      child: widget.isProgress
-                          ? DotsIndicator(
-                              dotsCount: widget.pages.length,
-                              position: _currentPage,
-                              decorator: widget.dotsDecorator,
-                              onTap: widget.isProgressTap && !widget.freeze
-                                  ? (pos) => animateScroll(pos.toInt())
-                                  : null,
-                            )
-                          : const SizedBox(),
-                    ),
-                  ),
-                  Expanded(
-                    flex: widget.nextFlex,
-                    child: isLastPage
-                        ? doneBtn
-                        : widget.showNextButton
-                            ? nextBtn
-                            : Opacity(opacity: 0.0, child: nextBtn),
-                  ),
+                  isSkipBtn ? skipBtn : Opacity(opacity: 0.0, child: skipBtn),
+                  Spacer(),
+                  isLastPage
+                      ? doneBtn
+                      : widget.showNextButton
+                          ? nextBtn
+                          : Opacity(opacity: 0.0, child: nextBtn),
                 ],
               ),
             ),
